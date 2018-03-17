@@ -43,7 +43,7 @@ print(a)
 print(type(a))
 
 
-# 函數定義中沒有限制 retrun 陳述的數量，可依需要自行設置，如
+# 函數定義中沒有限制 return 陳述的數量，可依需要自行設置，如
 print()
 print("2: other()")
 def other():
