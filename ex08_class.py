@@ -224,7 +224,7 @@ class Demo6:
         return cls.__x
 
 print()
-print("Demo6:")
+print("Demo6: 屬性的封裝")
 a = Demo6(9527)
 a.hello()
 print("Demo6.__x =", Demo6.getX())
@@ -240,6 +240,8 @@ print("Demo6.__x =", Demo6.getX())
 # ps:  Python所有的類別繼承自 object 這個類別，因此以下寫法
 # class Demo:   =     class Demo(object)
 #    pass                pass
+#
+# 類別名稱後的小括弧中註明父類別
 #
 class Demo7:
     __x = 0
@@ -262,6 +264,102 @@ class SubDemo(Demo7):
     pass
 
 
+print()
+print("Demo7: 繼承")
+a = SubDemo(1234)
+a.hello()
+print(a.getX())
+b = SubDemo(5678)
+b.hello()
+print(b.getX())
+c = SubDemo(9012)
+c.hello()
+print(c.getX())
+d = SubDemo(3456)
+d.hello()
+print(b.getX()) #類別函式call那個物件都一樣
+e = SubDemo(7890)
+e.hello()
+print(c.getX())
+
+#
+# 「繼承」是程式語言社群習慣用詞，英文動詞原文為 inherit ，
+# 意思泛指從什麼得到什麼，所以生物學中的「遺傳」也是用這個詞。
+# 實際上物件導向程式設計的繼承機制相當複雜，然而中文的繼承常用於某物不再，
+# 另物將起的意思，譬如我繼承某某的精神，雖然某某不見得已死，可是將來要付出
+# 努力的卻是我而非某某，因而這裡的意思中文用「遺傳」比較恰當，
+# 子代會從親代遺傳性狀，子代與親代也會並存一段時間，這就沒有某物不再的意含了。
+#
+
+#
+# isinstance()
+# 判斷某一個物件是否為某一個類別所建構的實體 (instance) ，
+# 若真則回傳 True ，否則回傳 False 。
+#
+# issubclass()
+# 判斷某一個類別是否為另一個類別的子類別
+#
+a = Demo7(1234)
+a.hello()
+b = SubDemo(5678)
+b.hello()
+print(isinstance(a, Demo7))
+print(isinstance(a, SubDemo))
+print(isinstance(b, Demo7))
+print(isinstance(b, SubDemo))
+print(issubclass(SubDemo, Demo7))
+print(issubclass(Demo7, SubDemo))
+
+#
+# 8. 方法改寫(method override)
+#
+# 一般來說，沒有設定成私有的屬性及方法都會被繼承，
+# 子類別可由父類別公開的方法存取父類別私有的屬性。
+#
+# 子類別也可依需要改寫 (override) 父類別的方法，
+# 這是說子類別需要用到與父類別具有相同名稱的方法，
+# 但是子類別需要的功能有所修改、擴充或增加，
+# 因此當子類別裡頭定義與父類別相同名稱的方法時，就會改寫父類別的方法。
+# 經過改寫，子類別的方法完全屬於子類別所有。
+#
+class Demo8:
+    __x = 0
+
+    def __init__(self, i):
+        self.__i = i
+        Demo8.__x += 1
+
+    def __str__(self):
+        return str(self.__i)
+
+    def hello(self):
+        print("hello", self.__str__())
+
+    @classmethod
+    def getX(cls):
+        return cls.__x
+
+class SubDemo8(Demo8):
+    def __init__(self, i, j):
+        super().__init__(i)  # 呼叫父類別的方法super()
+        self.__j = j
+
+    def __str__(self):
+        return super().__str__() + "+" + str(self.__j)
+
+print()
+print("Demo8: method override")
+a = SubDemo8(12, 34)
+a.hello()
+print("a.__x =", a.getX())
+b = SubDemo8(56, 78)
+b.hello()
+print("b.__x =", b.getX())
+print()
+print("a.__x =", a.getX())
+print("b.__x =", b.getX())
 
 
-
+#
+# 9. 多重繼承
+#
