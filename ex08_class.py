@@ -224,7 +224,7 @@ class Demo6:
         return cls.__x
 
 print()
-print("Demo6:")
+print("Demo6: 屬性的封裝")
 a = Demo6(9527)
 a.hello()
 print("Demo6.__x =", Demo6.getX())
@@ -240,6 +240,8 @@ print("Demo6.__x =", Demo6.getX())
 # ps:  Python所有的類別繼承自 object 這個類別，因此以下寫法
 # class Demo:   =     class Demo(object)
 #    pass                pass
+#
+# 類別名稱後的小括弧中註明父類別
 #
 class Demo7:
     __x = 0
@@ -262,6 +264,257 @@ class SubDemo(Demo7):
     pass
 
 
+print()
+print("Demo7: 繼承")
+a = SubDemo(1234)
+a.hello()
+print(a.getX())
+b = SubDemo(5678)
+b.hello()
+print(b.getX())
+c = SubDemo(9012)
+c.hello()
+print(c.getX())
+d = SubDemo(3456)
+d.hello()
+print(b.getX()) #類別函式call那個物件都一樣
+e = SubDemo(7890)
+e.hello()
+print(c.getX())
+
+#
+# 「繼承」是程式語言社群習慣用詞，英文動詞原文為 inherit ，
+# 意思泛指從什麼得到什麼，所以生物學中的「遺傳」也是用這個詞。
+# 實際上物件導向程式設計的繼承機制相當複雜，然而中文的繼承常用於某物不再，
+# 另物將起的意思，譬如我繼承某某的精神，雖然某某不見得已死，可是將來要付出
+# 努力的卻是我而非某某，因而這裡的意思中文用「遺傳」比較恰當，
+# 子代會從親代遺傳性狀，子代與親代也會並存一段時間，這就沒有某物不再的意含了。
+#
+
+#
+# isinstance()
+# 判斷某一個物件是否為某一個類別所建構的實體 (instance) ，
+# 若真則回傳 True ，否則回傳 False 。
+#
+# issubclass()
+# 判斷某一個類別是否為另一個類別的子類別
+#
+a = Demo7(1234)
+a.hello()
+b = SubDemo(5678)
+b.hello()
+print(isinstance(a, Demo7))
+print(isinstance(a, SubDemo))
+print(isinstance(b, Demo7))
+print(isinstance(b, SubDemo))
+print(issubclass(SubDemo, Demo7))
+print(issubclass(Demo7, SubDemo))
+
+#
+# 8. 方法改寫(method override)
+#
+# 一般來說，沒有設定成私有的屬性及方法都會被繼承，
+# 子類別可由父類別公開的方法存取父類別私有的屬性。
+#
+# 子類別也可依需要改寫 (override) 父類別的方法，
+# 這是說子類別需要用到與父類別具有相同名稱的方法，
+# 但是子類別需要的功能有所修改、擴充或增加，
+# 因此當子類別裡頭定義與父類別相同名稱的方法時，就會改寫父類別的方法。
+# 經過改寫，子類別的方法完全屬於子類別所有。
+#
+class Demo8:
+    __x = 0
+
+    def __init__(self, i):
+        self.__i = i
+        Demo8.__x += 1
+
+    def __str__(self):
+        return str(self.__i)
+
+    def hello(self):
+        print("hello", self.__str__())
+
+    @classmethod
+    def getX(cls):
+        return cls.__x
+
+class SubDemo8(Demo8):
+    def __init__(self, i, j):
+        super().__init__(i)  # 呼叫父類別的方法super()
+        self.__j = j
+
+    def __str__(self):
+        return super().__str__() + "+" + str(self.__j)
+
+print()
+print("Demo8: method override")
+a = SubDemo8(12, 34)
+a.hello()
+print("a.__x =", a.getX())
+b = SubDemo8(56, 78)
+b.hello()
+print("b.__x =", b.getX())
+print()
+print("a.__x =", a.getX())
+print("b.__x =", b.getX())
 
 
+#
+# 9. 多重繼承
+#
+# 設計類別 (class) 時，父類別 (superclass) 可以有多個，這是說子類別 (subclass)
+# 能夠繼承 (inherit) 多個父類別，使子類別可以有多種特性。
+#
+# class SubClass(SuperClass1, SuperClass2):
+#    pass
+#
+# 當子類別繼承 (inheritance) 超過一個來源的時候，會以寫在最左邊的父類別優先繼承
+#
+class Demo9:
+    __x = 0
+
+    def __init__(self, i):
+        self.__i = i
+        Demo9.__x += 1
+
+    def __str__(self):
+        return str(self.__i)
+
+    def hello(self):
+        print("hello", self.__str__())
+
+    @classmethod
+    def getX(cls):
+        return cls.__x
+
+class Other:
+    def __init__(self, k):
+        self.k = k
+
+    def __str__(self):
+        return str(self.k)
+
+    def hello(self):
+        print("hello world")
+
+    def bye(self):
+        print("Good-bye!", self.__str__())
+
+class SubDemo9(Demo9, Other):
+    def __init__(self, i, j):
+        super().__init__(i)
+        self.__j = j
+
+    def __str__(self):
+        return super().__str__() + "+" + str(self.__j)
+
+print()
+print("SubDemo9: 多重繼承")
+a = SubDemo9(12, 34)
+a.hello()
+a.bye()
+b = SubDemo9(56, 78)
+b.hello()
+b.bye()
+
+#
+# 10. 多型(polymorphism)
+#
+class Demo10:
+    def __init__(self, i):
+        self.i = i
+
+    def __str__(self):
+        return str(self.i)
+
+    def hello(self):
+        print("hello", self.__str__())
+
+class SubDemo101(Demo10):
+    def __init__(self, i, j):
+        super().__init__(i)
+        self.j = j
+
+    def __str__(self):
+        return super().__str__() + str(self.j)
+
+class SubDemo102(Demo10):
+    def __init__(self, i, j):
+        super().__init__(i)
+        self.j = j
+        self.k = str(self.i) + str(self.j)
+
+    def __str__(self):
+        return self.k
+
+print()
+print("Demo10. polymorphism")
+a = SubDemo101(22, 33)
+b = SubDemo102(44, "55")
+a.hello()
+b.hello()
+
+#
+# 11. __del__() 解構子(destructor)
+#
+class Demo11:
+    def __init__(self, i):
+        self.i = i
+
+    def __str__(self):
+        return str(self.i)
+
+    def __del__(self):
+        print("bye-bye " + self.__str__())
+
+    def hello(self):
+        print("hello " + self.__str__())
+
+print()
+print("Demo11: override destructor")
+a = Demo11(22)
+a.hello()
+a = Demo11(33)
+a.hello()
+a = Demo11(44)
+a.hello()
+a = Demo11(55)
+a.hello()
+
+#
+# 12. 迭代器(iterator)
+#
+# for 迴圈可以逐一取得容器 (container) 物件 (object) 的元素 (element) ，
+# 然後對元素進行操作。這樣的容器物件屬於複合資料型態 (compound data type) ，
+# 具有可被 for 迴圈操作的特性被稱為迭代器 (iterator) 。
+#
+# 定義具有迭代器特性的類別 (class) ，需加入 __iter__() 與 __next__() 的定義，
+# __iter__() 回傳 self 本身，而
+# __next__() 為取得下一個元素的方法 (method) 。
+#
+# 例如以下程式，類別 (class) Fibs 可計算費博納西數列 (Fibonacci series)
+#
+class Fibs:
+    def __init__(self):
+        self.i = 0
+        self.j = 1
+
+    def __str__(self):
+        return str(self.i)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.i, self.j = self.j, self.i + self.j
+        return self.i
+
+print()
+print("12. iterator Fibonacci")
+fibs = Fibs()
+for f in fibs:
+    print(f)
+    if f > 10000:
+        break
 
