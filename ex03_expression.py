@@ -15,6 +15,7 @@ print("1. 算術運算子")
 # 1. 算術運算子(arithmetic operator)
 # +, -, *, /, **(指數), //(整數除法), %
 
+print("a = 22, b = 33")
 a = 22
 b = 33
 
@@ -26,6 +27,7 @@ print(a / b)
 print(a // b)
 print(a % b)
 
+print ("a = 22.2, b = 33.3")
 a = 22.2
 b = 33.3
 
@@ -40,6 +42,7 @@ print(a % b)
 # 字串(string)物件或資料型態(data type)下
 # 加法運算子(additive operator)用於字串的連結(concatenation)
 # 乘法運算子(multiplicative operator)用於字串的重複
+print("a = \"22\", b =\"33\"")
 a = "22"
 b = "33"
 
@@ -58,6 +61,7 @@ print("2. 位元運算")
 #	^	位元互斥或(bitwise exclusive OR) xor
 #	~	位元相反(bit inversion) not
 
+print("a = 5, b = 3")
 a = 5  # 0000 0000 0000 0101
 b = 3  # 0000 0000 0000 0011
 
@@ -79,6 +83,7 @@ print("3. 關係運算子")
 #	==
 #	!=
 
+print("a = 12, b = 22")
 a = 12
 b = 22
 
